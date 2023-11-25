@@ -46,7 +46,7 @@ and also keep an older version at:
 
 This approach has the drawback that every time you download a new version you must also update all shortcuts, the `PATH` variable, etc.
 
-A possible way to work around those limitations is to create a soft link and make it point to the current version. In the example below we have named the soft link `current`. You point all shortcuts to the soft link instead of the actual directory, which contains the files. You also use that for the `PATH` variable. After each update, you alter the soft link to point to the newly-downloaded version. As all shortcuts and `PATH` use the soft link, they will not need to be updated manually. The directory structure may look like this:
+A possible way to work around those limitations is to create a soft link and make it point to the current version. In the example below we have named the soft link `current`. Then we'll use the soft link, instead of the actual directory, when adding Visual Studio Code to the `PATH` variable or when creating shortcuts. After each update we'll simply alter the soft link to point to the newly-downloaded version. As all shortcuts and `PATH` use the soft link, they will not need to be updated manually. The directory structure may look like this:
 
 ```
 C:\
@@ -57,8 +57,6 @@ C:\
           ├─── VSCode-win32-x64-1.83.1
           └─── VSCode-win32-x64-1.84.2
 ```
-
-And, respectively, `C:\Tools\vscode\current` should be added to `PATH`, instead of the actual directory.
 
 To create a new soft link, refer to the section relevant to your system:
 
@@ -89,24 +87,43 @@ cd \Tools\vscode
 mklink /d current VSCode-win32-x64-1.84.2
 ```
 
+## How to run Visual Studio Code
+
+If you want to start Visual Studio Code, make sure to start one of the scripts in the `bin/` directory, instead of `Code.exe` itself, which is located in the installation directory. Otherwise you may start getting errors like these:
+
+![Errors in the console](errors.png)
+
+### Linux
+
+Let's assume you have installed Visual Studio Code in `/portable/vscode`.
+
+You will need to run the bash script `/portable/vscode/bin/code`
+
+### Windows
+
+Let's assume you have installed Visual Studio Code in `C:\Tools\vscode`.
+
+You will need to run the script `C:\Tools\vscode\bin\code.cmd`
+
 ## Recommended steps
 
 ### Add Visual Studio Code to PATH
 
-Add Visual Studio Code's installation directory to the PATH environment variable.
-
 This will make it easier to launch it from a command interpreter, to add it to the configuration of different tools, etc.
 
-[You can find our guide on how to do that here](../Environment%20variables/).
+[You can find our guide on how to edit the `PATH` variable here](../Environment%20variables/).
+
+IMPORTANT: Make sure to add the `bin/` directory to the path, instead of the installation directory itself, because otherwise you may get errors as described in the previous section.
 
 ## Optional steps
 
 ### I want to have a shortcut to Visual Studio Code on my desktop in Windows
 
 1. Go to the installation directory.
-2. Right click Visual Studio Code's executable (`Code.exe`).
-3. If you are on Windows 11, choose `Show more options` from the context menu.
-4. Choose `Send To` > `Desktop (create shortcut)`.
+1. Enter the `bin\` subdirectory.
+1. Right click the `code.cmd` script.
+1. If you are on Windows 11, choose `Show more options` from the context menu.
+1. Choose `Send To` > `Desktop (create shortcut)`.
 
 ![How to create a desktop shortcut in Windows](desktop-shortcut.png)
 
@@ -119,7 +136,7 @@ This will make it easier to launch it from a command interpreter, to add it to t
 1. Right-click anywhere in the blank space.
 1. Choose `New` > `Shortcut` from the context menu.
 1. In the "Create shortcut" dialog click the `[Browse]` button.
-1. Navigate to the installation directory and select Visual Studio Code's executable (`Code.exe`). Press the `[OK]` button and finish the final steps of the shortcut creation wizard.
+1. Navigate to the installation directory, then to `bin\` and select the `code.cmd` script. Press the `[OK]` button and finish the final steps of the shortcut creation wizard.
 
 <div id="update" />
 
